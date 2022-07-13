@@ -3,7 +3,8 @@
 
 
 Node.js와 Express.js를 활용해 기본적인 SNS에 기능들을 추가했다.
-AWS RDS를 생성해 팀원들과 DB를 공유했고, github를 사용해 협업했다.
+AWS RDS를 생성해 팀원들과 DB를 공유했고, github를 사용해 협업했다. <br>
+
 ️☑️ 프로필 사진 관리 <br> 
 ☑️ 팔로우 / 팔로우 취소 <br>
 ☑️ 댓글 작성 및 삭제 <br>
