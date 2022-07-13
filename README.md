@@ -29,9 +29,7 @@ AWS RDS를 생성해 팀원들과 DB를 공유했고, github를 사용해 협업
 ![image](https://user-images.githubusercontent.com/89003891/178764409-c90cb471-92af-444d-92f5-c0da88d25d4c.png)
 #
 ✔️ 좋아요 & 댓글
-![image](https://user-images.githubusercontent.com/89003891/178766150-c3d937c6-d46a-4975-a240-a97492762dcc.png)
-
-![image](https://user-images.githubusercontent.com/89003891/178766157-263ba779-0416-4670-8d38-2e673986dd91.png)
+![image](https://user-images.githubusercontent.com/89003891/178766262-6fba9d5c-c154-4619-8804-ef7630d00ed2.png)
 #
 ✔️ 사진 저장
 
