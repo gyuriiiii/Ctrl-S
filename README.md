@@ -22,18 +22,15 @@ AWS RDS를 생성해 팀원들과 DB를 공유했고, github를 사용해 협업
 ## 실행 화면
 ✔️ 프로필 관리 및 & 팔로워 관리
 
-![image](https://user-images.githubusercontent.com/89003891/178764834-f1f806ce-5a11-4642-8371-9632a3bb6e49.png)
-
+![image](https://user-images.githubusercontent.com/89003891/178764904-7614b80e-a255-4c4b-be53-d6874e6e3ac3.png)
 #
 ✔️ 자신이 쓴 게시글 관리
 
 ![image](https://user-images.githubusercontent.com/89003891/178764409-c90cb471-92af-444d-92f5-c0da88d25d4c.png)
-
 #
-✔️ 댓글
-
-![image](https://user-images.githubusercontent.com/89003891/178764605-30f814d5-a2e0-4c1e-863e-f178ec95f8da.png)
-
+✔️ 좋아요 & 댓글
+![image](https://user-images.githubusercontent.com/89003891/178765164-f075dee8-a8ec-45da-b489-f1bf8187b2e6.png)
+![image](https://user-images.githubusercontent.com/89003891/178765195-7a05e6c5-c384-417b-b5ee-e8a1ea565edf.png)
 #
 ✔️ 사진 저장
 
