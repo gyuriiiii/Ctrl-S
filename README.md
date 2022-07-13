@@ -22,23 +22,19 @@ AWS RDS를 생성해 팀원들과 DB를 공유했고, github를 사용해 협업
 ## 실행 화면
 ✔️ 프로필 관리 및 & 팔로워 관리
 
-![image](https://user-images.githubusercontent.com/89003891/178762691-15bef5f7-21c7-448a-8959-4e0b179df8f8.png)
-![image](https://user-images.githubusercontent.com/89003891/178763057-ce5e84e9-b800-494c-aa05-ca4e977ee12e.png)
+![image](https://user-images.githubusercontent.com/89003891/178763601-747e00a7-9fb5-44c7-a13f-a7a5b05976a4.png)
+![image](https://user-images.githubusercontent.com/89003891/178763613-5ae53bfa-7e58-4786-8849-aab82245a9c5.png)
 
 
 ✔️ 자신이 쓴 게시글 관리
 
-![image](https://user-images.githubusercontent.com/89003891/178762847-8b45e069-1656-41b2-9df4-85ac07c7fb70.png)
-
-✔️ 자신이 쓴 게시글 관리
-
-![image](https://user-images.githubusercontent.com/89003891/178762847-8b45e069-1656-41b2-9df4-85ac07c7fb70.png)
+![image](https://user-images.githubusercontent.com/89003891/178763666-6150e088-6775-4ead-b568-ec4283d3f510.png)
 
 ✔️ 댓글
 
-![image](https://user-images.githubusercontent.com/89003891/178763082-4febf3da-af77-40ba-ba77-080d5ab842d7.png)
+![image](https://user-images.githubusercontent.com/89003891/178763737-59c32b3b-f004-409a-ae6f-1e3ffc6bb908.png)
 
 
 ✔️ 사진 저장
 
-![image](https://user-images.githubusercontent.com/89003891/178763101-0199dc16-4ce3-42da-a6e7-ce4320fcb3a0.png)
+![image](https://user-images.githubusercontent.com/89003891/178763855-1d6856d4-c005-4ea3-ac03-d25400fa6969.png)
