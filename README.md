@@ -2,7 +2,7 @@
 **SNS Project**
 
 
-Node.js와 Express.js를 활용해 기본적인 SNS에 기능들을 추가했다.
+Node.js와 Express.js를 활용해 기본적인 SNS에 기능들을 추가했다. <br>
 AWS RDS를 생성해 팀원들과 DB를 공유했고, github를 사용해 협업했다. <br>
 
 ️☑️ 프로필 사진 관리 <br> 
