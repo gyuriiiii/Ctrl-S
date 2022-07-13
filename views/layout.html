@@ -12,19 +12,36 @@
       <div class="profile-wrap">
         <div class="profile">
           {% if user and user.id %}
+          <form id="profile-form" action="/user" method="post" enctype="multipart/form-data">
+            <div class="img-profile">
+              <img id="img-profile" src="{{user.profile}}"
+              alt="프사X">
+              <input id="profile-url" type="hidden" name="url">
+            </div>
+
+            <div class="profile-change">
+              <label id="profile-label" for="img" style="visibility: hidden;">선택</label>
+              <input id="img" type="file" accept="image/*">
+              <input id="profile-btn" type="submit" value="변경" name="submit" style="visibility: hidden;">
+            </div>
+          </form>
+
             <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
-            <div class="half">
+            <div class="half" OnClick="location.href ='http://localhost:8001/profile/'">
               <div>팔로잉</div>
               <div class="count following-count">{{followingCount}}</div>
             </div>
-            <div class="half">
+            <div class="half" OnClick="location.href ='http://localhost:8001/profile/'">
+
               <div>팔로워</div>
               <div class="count follower-count">{{followerCount}}</div>
             </div>
           <input id="my-id" type="hidden" value="{{user.id}}">
           <input id="my-nick" type="hidden" value="{{user.nick}}">
+          <div class="twoBtn">
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+          </div>
         {% else %}
           <form id="login-form" action="/auth/login" method="post">
             <div class="input-group">
@@ -35,14 +52,19 @@
               <label for="password">비밀번호</label>
               <input id="password" type="password" name="password" required>
             </div>
-            <a id="join" href="/join" class="btn">회원가입</a>
-            <button id="login" type="submit" class="btn">로그인</button>
-            <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
+            <div class="input-button">
+              <a id="join" href="/join" class="btn">회원가입</a>
+              <button id="login" type="submit" class="btn"><label class="login-label">로그인</label></button>
+              <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
+            </div>
           </form>
         {% endif %}
         </div>
         <footer>
-          <b>prj-name</b> at Web Framework2 (N)
+          <b>Ctrl+S</b> at Web Framework2 (B)<br>
+          <a href="/" id="link-main">
+            <img id="mainBtn" src="/icon/Home.png" /> 
+          </a>
         </footer>
       </div>
       {% block content %}

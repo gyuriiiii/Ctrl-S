@@ -1,6 +1,6 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; }
-.btn {
+.btn, .comment-btn {
   display: inline-block;
   padding: 0 5px;
   text-decoration: none;
@@ -25,15 +25,21 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   .container { width: 800px; margin: 0 auto; }
 }
 .input-group { margin-bottom: 15px; }
-.input-group label { width: 25%; display: inline-block; }
+.input-group label { width: 25%; display: inline-block; font-family: 'S-CoreDream-3Light' ; }
 .input-group input { width: 70%; }
-.half { float: left; width: 50%; margin: 10px 0; }
+.input-button { font-family: 'S-CoreDream-6Bold' ;}
+.login-label { font-family: 'S-CoreDream-6Bold'; }
+.half { float: left; width: 50%; margin: 10px 0; cursor: pointer;}
 #join { float: right; }
 .profile-wrap {
   width: 100%;
   display: inline-block;
   vertical-align: top;
   margin: 10px 0;
+}
+
+.profile-post{
+  font-family: 'S-CoreDream-3Light';
 }
 @media screen and (min-width: 800px) {
   .profile-wrap { width: 290px; margin-bottom: 0; }
@@ -46,7 +52,13 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   border: 1px solid silver;
   background: lightcoral;
 }
-.user-name { font-weight: bold; font-size: 18px; }
+
+#link-main {
+  font-family: 'KoPubDotumMedium';
+  text-decoration: none;
+}
+
+.user-name { font-weight: bold; font-size: 20px; text-align: center; font-family: 'S-CoreDream-6Bold'; }
 .count { font-weight: bold; color: crimson; font-size: 18px; }
 .timeline {
   margin-top: 10px;
@@ -62,6 +74,11 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   background: lightcoral;
   overflow: hidden;
 }
+
+.twit-content{
+  font-family: 'Nanum Gothic400';
+
+}
 #img-preview { max-width: 100%; }
 #img-label {
   float: left;
@@ -75,21 +92,60 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   line-height: 37px;
 }
 #img { display: none; }
+
+#profile { display: none; }
+#profile-label {
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid crimson;
+  padding: 0 10px;
+  color: white;
+  font-size: 12px;
+  height: 20px;
+  line-height: 40px;
+}
+
 #twit { width: 100%; min-height: 72px; }
 #twit-btn {
   float: right;
   color: white;
   background: crimson;
   border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
+
 .twit {
   border: 1px solid silver;
   border-radius: 4px;
   padding: 10px;
   position: relative;
   margin-bottom: 10px;
+  min-height: 100px;
 }
-.twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
+
+.twit-div{
+  height:20px;
+}
+.twit-delete{
+  float: right;
+  background: rgb(255, 255, 255);
+  border: 1px solid silver;
+  border-radius: 5px;
+  color: crimson;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'S-CoreDream-6Bold';
+}
+.follow_view{
+  width:500px;
+  height:200px;
+
+}
+
+.twit-author { display: inline-block; font-weight: bold; margin-right: 10px; margin-bottom: 10px; font-family: 'S-CoreDream-6Bold'; }
+
 .twit-follow {
   padding: 1px 5px;
   background: #fff;
@@ -98,11 +154,331 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
   color: crimson;
   font-size: 12px;
   cursor: pointer;
+  font-family: 'S-CoreDream-6Bold';
 }
-.twit-img { text-align: center; }
+
+.following-cancel-btn{
+  padding: 1px 5px;
+    background: #fff;
+    border: 1px solid silver;
+    border-radius: 5px;
+    color: crimson;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'S-CoreDream-6Bold';
+}
+
+.img-profile {
+  text-align: center;
+}
+
+#img-profile {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+.half {
+  text-align: center;
+  font-family: 'S-CoreDream-3Light';
+}
+
+.profile-label {
+  text-align: center;
+}
+
+.profile-change {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+#profile-btn {
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid crimson;
+  padding: 0 10px;
+  color: white;
+  background: lightcoral;
+  font: 12px "Malgun Gothic";
+}
+
+#my-profile {
+  margin-left: 70px;
+}
+
+#small-profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#nickname-label {
+  margin-left: 5px;
+}
+
+.twoBtn {
+  font-family: 'KoPubDotumMedium';
+  font-weight: bold;
+}
+
+.imgBtn {
+  font-family: 'KoPubDotumMedium';
+}
+
+.twit-more {
+  position: relative;
+  float:right;
+  display: inline-block;
+  padding: 0px 10px;
+
+}
+
+.twit-more .more-img{
+  width:20px;
+  height:20px;
+  
+}
+.twit-more .twit-more-content{
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fafafa;
+  min-width: 160px;
+  box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+  font-family: 'S-CoreDream-3Light'
+}
+
+.twit-more:hover .twit-more-content {
+  display: block;
+}
+
+.twit-more .twit-more-content a{
+  color: black;
+  padding: 12px 16px;
+  display: block;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.twit-more-content a:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.twit-like {
+  position: absolute;
+  bottom: 25px;
+  right: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  margin-top: 20px;
+}
+
+.twit-unlike {
+  position: absolute;
+  bottom : 30px;
+  right: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+}
+
+.twit-liker-num {
+  position: absolute;
+  bottom : 5px;
+  right: 10px;
+  font-family: 'S-CoreDream-4Regular';
+}
+
+.twit-like-img {
+  height: 25px;
+  width: 25px;
+}
+
+.comment-more {
+  border: none;
+  background: none;
+  color: crimson;
+  font-family: 'Nanum Gothic400';
+}
+
+#comment-list {
+  height: 50px;
+  border-spacing: 0;
+  display: block;
+  overflow: auto;
+}
+
+#comment-list tr {
+  white-space: pre-line;
+  word-break: break-all;
+  width: 100%;
+}
+
+#comment-list tr:nth-child(even) {
+  background-color:#FFFFFF;
+  color:#000000;
+}
+#comment-list tr:nth-child(odd) {
+  background-color:#f0808021;
+}
+
+#comment-list::-webkit-scrollbar {
+  width: 10px;
+}
+#comment-list::-webkit-scrollbar-thumb {
+  background-color: #fd8484;
+  border-radius: 10px;
+}
+#comment-list::-webkit-scrollbar-track {
+  background-color: #ffc4c4;
+  border-radius: 10px;
+}
+
+#td-id{
+  width: 1000px;
+  color: lightcoral;
+  font-family: 'S-CoreDream-6Bold';
+}
+
+#td-comment {
+  width: 100%;
+  font-family: 'Nanum Gothic400';
+}
+
+#td-edit, #td-remove {
+  padding: 1px 5px;
+  background: #fff;
+  border: 1px solid silver;
+  border-radius: 5px;
+  color: lightcoral;
+  font-size: 12px;
+  cursor: pointer;
+  width: 40px;
+  margin-bottom: 2px;
+  font-family: 'S-CoreDream-4Regular';
+}
+
+#comment {
+  margin: 10px 0 1px 0;
+  font-family: 'Nanum Gothic400';
+}
+
+.comment-btn {
+  margin: 10px 0 1px 0;
+  font-family: 'S-CoreDream-6Bold';
+}
+
+.twit-comment {
+  position: absolute;
+  bottom: 36px;
+  right: 127px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  margin-top: 20px;
+}
+
+.twit-uncomment {
+  position: absolute;
+  bottom: 36px;
+  right: 127px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+}
+
+.twit-comment-num {
+  position: absolute;
+  bottom: 5px;
+  right: 110px;
+}
+
+.twit-comment-img {
+  height: 37px;
+  width: 40px;
+}
+.comment-list-th{
+  font-family: 'S-CoreDream-6Bold';
+}
+
+.comment-list-content{
+  font-family: 'Nanum Gothic400';
+}
+
+#mainBtn {
+  height:45px;
+  width:45px;
+  background: no-repeat;
+  border: none;
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+}
+
+@font-face {
+  font-family: 'KoPubDotumMedium';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/KoPubDotumMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic400';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.eot);
+  src: url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.eot?#iefix) format('embedded-opentype'),
+       url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.woff2) format('woff2'),
+       url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.woff) format('woff'),
+       url(//themes.googleusercontent.com/static/fonts/earlyaccess/nanumgothic/v3/NanumGothic-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'S-CoreDream-3Light';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'S-CoreDream-6Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'S-CoreDream-4Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .twit-img img { max-width: 75%; }
 .error-message { color: red; font-weight: bold; }
 #search-form { text-align: right; }
 #join-form { padding: 10px; text-align: center; }
-#hashtag-form { text-align: right; }
-footer { text-align: center; }
+#hashtag-form { text-align: right; margin-top: 10px; margin-bottom: 10px; }
+.btn { font-family: 'S-CoreDream-4Regular'; }
+#hashtag{ font-family: 'Nanum Gothic400'; }
+
+footer { text-align: center; font-family: 'Nanum Gothic400'; margin: 10px; }
+
+.hr {
+  height: 0.8px;
+  background-color: #ffb1ae;
+  border: 0;
+}

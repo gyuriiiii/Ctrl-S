@@ -2,30 +2,70 @@
 
 {% block content %}
   <div class="timeline">
-    <div class="followings half">
-      <h2>팔로잉 목록</h2>
-      {% if user.Followings %}
-        {% for following in user.Followings %}
+    <div class="follow_view">
+      <div class="followings half">
+        <h2>팔로잉 목록</h2>
+        {% if user.Followings %}
+          {% for following in user.Followings %}
           <div>
-          <input type="hidden" value="{{following.id}}" class="followings-cancel">
-          {{following.nick}}
-          <button class="following-cancel-btn">팔로잉 취소</button>
-          </div>
-        {% endfor %}
-      {% endif %}
+            <input type="hidden" value="{{following.id}}" class="followings-cancel">
+            {{following.nick}}
+            <button class="following-cancel-btn">팔로우취소</button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="followers half">
+        <h2>팔로워 목록</h2>
+        {% if user.Followers %}
+          {% for follower in user.Followers %}
+            <div>{{follower.nick}}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
-    <div class="followers half">
-      <h2>팔로워 목록</h2>
-      {% if user.Followers %}
-        {% for follower in user.Followers %}
-          <div>{{follower.nick}}</div>
-        {% endfor %}
-      {% endif %}
+    
+    <div class="profile_posts">
+      <h2 class="profile-post">내가 쓴 글</h2>
+    {% for twit in twits %}
+      <div class="twit">
+        <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+        <input type="hidden" value="{{twit.id}}" class="twit-id">
+        <div class="twit-author">{{twit.User.nick}}</div>
+          {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
+            <button class="twit-follow">팔로우하기</button>
+          {% endif %}
+            <div class="twit-content">{{twit.content}}</div>
+            <div class="twit-div"><button class="twit-delete">삭제</button></div>
+          {% if twit.img %}
+            <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+          {% endif %}
+        </div>
+    {% endfor %}
     </div>
   </div>
 {% endblock %}
 
 {% block script %}
+<script>
+  document.querySelectorAll(".twit-delete").forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        const twitId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        
+        if (confirm('삭제하시겠습니까?')) {
+          axios.post(`/post/${twitId}/delete`)
+            .then(() => {
+              location.reload();
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
+      });
+    });
+</script>
+
   <script>
     document.querySelectorAll('.following-cancel-btn').forEach(function(tag) {
       tag.addEventListener('click', function() {
@@ -33,7 +73,7 @@
         if (myId) {
           const userId = tag.parentNode.querySelector('.followings-cancel').value;
           if (userId !== myId.value) {
-            if (confirm('팔로잉 취소하시겠습니까?')) {
+            if (confirm('팔로우 취소하시겠습니까?')) {
               axios.post(`/user/${userId}/followcancel`)
                 .then(() => {
                   location.reload();
@@ -46,5 +86,29 @@
         }
       });
     });
-  </script>
+
+  document.getElementById('profile-label').style.visibility = 'visible';
+  document.getElementById('profile-btn').style.visibility = 'visible';
+
+  if (document.getElementById('img')) {
+    document.getElementById('img').addEventListener('change', function(e) {
+      const formData = new FormData();
+      console.log(this, this.files);
+      
+      formData.append('img', this.files[0]);
+      axios.post('/user/profile', formData)
+        .then((res) => {
+          document.getElementById('profile-url').value = res.data.url;
+          document.getElementById('img-profile').src = res.data.url;
+          document.getElementById('img-profile').style.display = 'inline';
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  }
+</script>
+
 {% endblock %}
+
+

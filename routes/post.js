@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const User = require('../models/user');
 
 const { Post, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
@@ -34,13 +35,15 @@ router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
 });
 
 const upload2 = multer();
-router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
+
+router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => { // 게시글 등록 요청
   try {
     console.log(req.user);
     const post = await Post.create({
       content: req.body.content,
       img: req.body.url,
       UserId: req.user.id,
+      profile: req.user.profile,
     });
     const hashtags = req.body.content.match(/#[^\s#]*/g);
     if (hashtags) {
@@ -53,27 +56,50 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       );
       await post.addHashtags(result.map(r => r[0]));
     }
-    res.redirect('/');
+    res.redirect('/closeModal');
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
 
-router.post('/:id/comments', async (req, res, next) => {
+router.post('/:twitId/delete', isLoggedIn, async (req, res, next) => {
   try {
-  const comments = await Comment.findAll({
-  include: {
-  model: User,
-  where: { id: req.params.id },
-  },
-  });
-  console.log(comments);
-  res.json(comments);
-  } catch (err) {
-  console.error(err);
-  next(err);
+    const user = await User.findOne({ where: { id: req.user.id } });
+    if (user) {
+      await Post.destroy({ where: { id: req.params.twitId } })
+      res.send('success');
+    } else {
+      res.status(404).send('no user');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-  });
+});
+
+router.post('/:id/like', async(req,res, next) => {
+  try {
+  const post = await Post.findOne({ where : { id : req.params.id } });
+  console.log('post 전달 - 아이디 검색 끝 ' );
+    await post.addLiker(req.user.id);
+    res.send('success');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.delete('/:id/unlike', async(req,res, next) => {
+  try {
+    const post = await Post.findOne({ where : { id : req.params.id} });
+    console.log('post 전달 - 좋아요 취소 준비 ' );
+      await post.removeLiker(req.user.id);
+      res.send('success');
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
+});
 
 module.exports = router;

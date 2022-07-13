@@ -1,0 +1,4 @@
+// 설정해서 사용하면 됨 //
+hostname: webframework.clrcunlvh8iv.us-west-1.rds.amazonaws.com
+username: root
+password: 12341234

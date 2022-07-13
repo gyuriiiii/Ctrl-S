@@ -4,43 +4,72 @@
     <div class="timeline">
       {% if user %}
         <div>
-          <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
-            <div class="input-group">
-              <textarea id="twit" name="content" maxlength="140"></textarea>
-            </div>
-            <div class="img-preview">
-              <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
-              <input id="img-url" type="hidden" name="url">
-            </div>
-            <div>
-              <label id="img-label" for="img">사진 업로드</label>
-              <input id="img" type="file" accept="image/*">
-              <button id="twit-btn" type="submit" class="btn">짹짹</button>
-            </div>
-          </form>
+
+          <button id="twit-btn" type="button" class="btn" onclick="showPopup();">글쓰기</button>
+
         </div>
       {% endif %}
       <div class="twits">
         <form id="hashtag-form" action="/hashtag">
-          <input type="text" name="hashtag" placeholder="태그 검색">
+          <input type="text" id="hashtag" name="hashtag" placeholder="태그 검색">
           <button class="btn">검색</button>
         </form>
         {% for twit in twits %}
           <div class="twit">
             <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
             <input type="hidden" value="{{twit.id}}" class="twit-id">
-            <div class="twit-author">{{twit.User.nick}}</div>
+
+
+            <div class="twit-author">
+              <img id="small-profile" src="{{twit.profile}}" alt="프사" />
+              <label id="nickname-label"> {{twit.User.nick}} </label>
+            </div>
+
             {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
               <button class="twit-follow">팔로우하기</button>
             {% endif %}
+
+             <!-- 더보기메뉴 - 사진저장 버튼 추가 -->
+             {% if twit.img %}
+             <div class="twit-more">
+               <img class="more-img" src="/img/more.png">
+               <div class="twit-more-content">
+                 <a href="{{twit.img}}" download="image">사진 저장하기</a>
+                 </div>
+             </div>
+           {% endif %}
             <div class="twit-content">{{twit.content}}</div>
+            {% if twit.User.id == user.id %}
+              <div class="twit-div"><button class="twit-delete">삭제</button></div>
+            {% endif %}
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
+
+            <!-- 좋아요 기능 -->
+            {% set likerIdList = [] %}
+            {% set test = twit.Liker %}
+              {% for i in twit.Liker %}
+                {% set likerIdList = (likerIdList.push(i.id), likerIdList) %}
+              {% endfor %}
+              
+            {% if not likerIdList.includes(user.id) and user.id %}
+              <button class="twit-like"><img class="twit-like-img" src="/img/heart.png"></button>
+            {% elif likerIdList.includes(user.id) and user %}
+              <button class="twit-unlike"><img class="twit-like-img" src="/img/heart_full.png"></button>
+            {% endif %}
+              <div class="twit-liker-num">좋아요 {{twit.Liker.length}}개</div>
+            <hr class="hr">
+            <table id="comment-list">
+              <tbody>
+              </tbody>
+            </table>
+            <button class="comment-more" value="big">댓글 크게보기</button>
             <form id="comment-form">
-                <input type="hidden" value="{{twit.id}}" class="comments">
-                <div><input id="comment" type="text" placeholder="댓글"></div>
+                <input type="hidden" value="{{twit.id}}" class="post-id">
+                <div><input id="comment" type="text" placeholder="댓글">
                 <button type="submit" class="comment-btn">등록</button>
+                </div>
             </form>
           </div>
         {% endfor %}
@@ -50,29 +79,17 @@
 
 {% block script %}
   <script>
-    if (document.getElementById('img')) {
-      document.getElementById('img').addEventListener('change', function(e) {
-        const formData = new FormData();
-        console.log(this, this.files);
-        formData.append('img', this.files[0]);
-        axios.post('/post/img', formData)
-          .then((res) => {
-            document.getElementById('img-url').value = res.data.url;
-            document.getElementById('img-preview').src = res.data.url;
-            document.getElementById('img-preview').style.display = 'inline';
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      });
+    function showPopup(){
+      window.open("twit","글쓰기","width=400, height=150, top=10, left=10");
     }
-    document.querySelectorAll('.twit-follow').forEach(function(tag) {
+
+    document.querySelectorAll(".twit-follow").forEach(function(tag) {
       tag.addEventListener('click', function() {
         const myId = document.querySelector('#my-id');
         if (myId) {
           const userId = tag.parentNode.querySelector('.twit-user-id').value;
           if (userId !== myId.value) {
-            if (confirm('팔로잉하시겠습니까?')) {
+            if (confirm('팔로우하시겠습니까?')) {
               axios.post(`/user/${userId}/follow`)
                 .then(() => {
                   location.reload();
@@ -85,31 +102,186 @@
         }
       });
     });
+
+    document.querySelectorAll(".twit-delete").forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        const twitId = tag.parentNode.parentNode.querySelector('.twit-id').value;
+        
+        if (confirm('삭제하시겠습니까?')) {
+          axios.post(`/post/${twitId}/delete`)
+            .then(() => {
+              location.reload();
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+          }
+        })
+      });
+
+    //좋아요 버튼 기능
+    document.querySelectorAll('.twit-like').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        console.log('클릭이벤트');
+        if (myId) {
+              var twitId = tag.parentNode.querySelector('.twit-id').value;
+
+              axios.post(`/post/${twitId}/like`)
+                .then(() => {
+                  location.reload();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+              }
+            })
+          });
+
+    //좋아요 취소
+    document.querySelectorAll('.twit-unlike').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+              var twitId = tag.parentNode.querySelector('.twit-id').value;
+
+              axios.delete(`/post/${twitId}/unlike`)
+                .then(() => {
+                  location.reload();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+        }
+      });
+    });
+
+    //댓글 크게보기, 작게보기
+    document.querySelectorAll('.comment-more').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const commentlist = tag.parentNode.querySelector('#comment-list');
+        const commentmore = tag.parentNode.querySelector('.comment-more');
+        if(commentmore.value == "big"){
+          commentlist.style.height = '300px';
+          commentmore.textContent = '댓글 작게보기';
+          commentmore.value = "small";
+        }
+        else{
+          commentlist.style.height = '50px';
+          commentmore.textContent = '댓글 크게보기';
+          commentmore.value = "big";
+        }
+      });
+    });
+
+    // 댓글 로딩
+    getComment();
+    async function getComment() {
+      try {
+        document.querySelectorAll('#comment-form').forEach( function(tag) {
+        const postid = tag.parentNode.querySelector('.post-id').value;
+        axios.get('/comments', {params: { id: postid }})
+          .then((res) => {
+            if (res.data == 0) {
+              const commentlist = tag.parentNode.querySelector('#comment-list');
+              const commentmore = tag.parentNode.querySelector('.comment-more');
+              commentlist.style.height = '0px';
+              commentmore.style.display = 'none';
+            }
+            const comments = res.data;
+            const tbody = tag.parentNode.querySelector('#comment-list tbody');
+            tbody.innerHTML = '';
+            comments.map(function (comment) {
+              const row = document.createElement('tr');
+              //댓글 수정 삭제
+              const edit = document.createElement('button');
+              edit.textContent = '수정';
+              edit.id = 'td-edit';
+              edit.addEventListener('click', async () => { // 수정 클릭 시
+                const newComment = prompt('바꿀 내용을 입력하세요');
+                if (!newComment) {
+                  return alert('내용을 반드시 입력하셔야 합니다');
+                }
+                try {
+                  await axios.patch(`/comments/${comment.id}`, { comment: newComment });
+                  getComment();
+                } catch (err) {
+                  console.error(err);
+                }
+              });
+              const remove = document.createElement('button');
+              remove.textContent = '삭제';
+              remove.id = 'td-edit';
+              remove.addEventListener('click', async () => { // 삭제 클릭 시
+                try {
+                  await axios.delete(`/comments/${comment.id}`);
+                  getComment();
+                } catch (err) {
+                  console.error(err);
+                }
+              });
+
+              // 로우 셀 추가
+              const myNick = document.querySelector('#my-nick');
+              let td = document.createElement('td');
+              td.textContent = comment.commenter;
+              td.id = 'td-id';
+              if(myNick) {
+                if(comment.commenter !=  myNick.value){
+                  td.colSpan = '3';
+                }
+              }
+              row.appendChild(td);
+              tbody.appendChild(row);
+              if(myNick) {
+                if(comment.commenter ==  myNick.value){
+                  td = document.createElement('td');
+                  td.appendChild(edit);
+                  row.appendChild(td);
+                  td = document.createElement('td');
+                  td.appendChild(remove);
+                  row.appendChild(td);
+                  tbody.appendChild(row);
+                }
+              }
+              const row2 = document.createElement('tr');
+              td = document.createElement('td');
+              td.textContent = comment.comment;
+              td.id = 'td-comment';
+              td.colSpan = '3';
+              row2.appendChild(td);
+              tbody.appendChild(row2);
+            });
+          })
+        .catch((err) => {
+          console.error(err);
+        });
+      });
+      } catch (err) {
+        console.error(err);
+      }
+    }
     // 댓글 등록
     //document.getElementById('comment-form').addEventListener('submit', (e) => {
     document.querySelectorAll('#comment-form').forEach( function(tag) {
     tag.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const id = document.querySelector('#my-nick').value;
+      const commenter = document.querySelector('#my-nick').value;
       const comment = tag.parentNode.querySelector('#comment').value;
-      const post = tag.parentNode.querySelector('.comments').value;
+      const postid = tag.parentNode.querySelector('.post-id').value;
       if (!comment) {
         return alert('댓글을 입력하세요');
       }
       try {
-        await axios.post('/comments', { id, comment, post })
-        .then((res) => {
-            location.reload();
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        await axios.post('/comments', { commenter, comment, postid });
+        location.reload();
       } catch (err) {
         console.error(err);
       }
       e.target.comment.value = '';
     });
   });
-    
   </script>
+
 {% endblock %}
